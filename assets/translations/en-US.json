@@ -19,6 +19,7 @@
     "book_format_all": "All book formats",
     "add_manually": "Add book manually",
     "add_search": "Search in Open Library",
+    "add_link": "Add from Web Link",
     "add_scan": "Scan a barcode",
     "add_book": "Add book",
     "finished_on_date": "Finished",

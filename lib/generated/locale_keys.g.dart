@@ -21,6 +21,7 @@ abstract class LocaleKeys {
   static const book_format_all = 'book_format_all';
   static const add_manually = 'add_manually';
   static const add_search = 'add_search';
+  static const add_link = 'add_link';
   static const add_scan = 'add_scan';
   static const add_book = 'add_book';
   static const finished_on_date = 'finished_on_date';

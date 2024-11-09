@@ -28,17 +28,21 @@ class AddBookScreen extends StatefulWidget {
     super.key,
     this.fromOpenLibrary = false,
     this.fromOpenLibraryEdition = false,
+    this.fromWebUrl = false,
     this.editingExistingBook = false,
     this.duplicatingBook = false,
     this.coverOpenLibraryID,
+    this.coverWebUrl,
     this.work,
   });
 
   final bool fromOpenLibrary;
   final bool fromOpenLibraryEdition;
+  final bool fromWebUrl;
   final bool editingExistingBook;
   final bool duplicatingBook;
   final int? coverOpenLibraryID;
+  final String? coverWebUrl;
   final String? work;
 
   @override
@@ -62,9 +66,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   bool _isCoverDownloading = false;
 
-  static const String coverBaseUrl = 'https://covers.openlibrary.org/';
-  late final String coverUrl =
-      '${coverBaseUrl}b/id/${widget.coverOpenLibraryID}-L.jpg';
+  static const String olCoverBaseUrl = 'https://covers.openlibrary.org/';
+  late final String olCoverUrl =
+      '${olCoverBaseUrl}b/id/${widget.coverOpenLibraryID}-L.jpg';
 
   List<String> bookTypes = [
     LocaleKeys.book_format_paperback.tr(),
@@ -85,7 +89,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     _myReviewCtrl.text = book.myReview ?? '';
     _notesCtrl.text = book.notes ?? '';
 
-    if (!widget.fromOpenLibrary && !widget.fromOpenLibraryEdition) {
+    if (!widget.fromOpenLibrary && !widget.fromOpenLibraryEdition && !widget.fromWebUrl) {
       if (!widget.duplicatingBook) {
         context.read<EditBookCoverCubit>().setCover(book.getCoverBytes());
       }
@@ -150,7 +154,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
       Navigator.pop(context);
     }
 
-    if (widget.fromOpenLibrary) {
+    if (widget.fromOpenLibrary || widget.fromWebUrl) {
       Navigator.pop(context);
       if (!widget.fromOpenLibraryEdition) return;
       Navigator.pop(context);
@@ -255,7 +259,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
       _isCoverDownloading = true;
     });
 
-    http.get(Uri.parse(coverUrl)).then((response) async {
+    var downloadUrl = widget.coverWebUrl != null ? widget.coverWebUrl! : olCoverUrl;
+
+    http.get(Uri.parse(downloadUrl)).then((response) async {
       if (!mounted) return;
 
       if (!mounted) return;
@@ -360,8 +366,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
     _prefillBookDetails(context.read<EditBookCubit>().state);
     _attachListeners();
 
-    if (widget.fromOpenLibrary || widget.fromOpenLibraryEdition) {
-      if (widget.coverOpenLibraryID != null) {
+    if (widget.fromOpenLibrary || widget.fromOpenLibraryEdition || widget.fromWebUrl) {
+      if (widget.coverOpenLibraryID != null || widget.coverWebUrl != null) {
         _downloadCover();
       } else {
         // Remove temp cover file if book/edition has no cover

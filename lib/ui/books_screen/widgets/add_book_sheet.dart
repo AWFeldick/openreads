@@ -10,11 +10,13 @@ class AddBookSheet extends StatefulWidget {
     super.key,
     required this.addManually,
     required this.searchInOpenLibrary,
+    required this.searchWebLink,
     required this.scanBarcode,
   });
 
   final Function() addManually;
   final Function() searchInOpenLibrary;
+  final Function() searchWebLink;
   final Function() scanBarcode;
 
   @override
@@ -60,6 +62,14 @@ class _AddBookSheetState extends State<AddBookSheet> {
                 color: Theme.of(context).colorScheme.primary,
               ),
               onTap: widget.searchInOpenLibrary,
+            ),
+            ListTile(
+              title: Text(LocaleKeys.add_link.tr()),
+              leading: FaIcon(
+                FontAwesomeIcons.link,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              onTap: widget.searchWebLink,
             ),
             ListTile(
               title: Text(LocaleKeys.add_scan.tr()),

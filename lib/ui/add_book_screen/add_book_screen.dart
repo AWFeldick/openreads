@@ -89,7 +89,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
     _myReviewCtrl.text = book.myReview ?? '';
     _notesCtrl.text = book.notes ?? '';
 
-    if (!widget.fromOpenLibrary && !widget.fromOpenLibraryEdition && !widget.fromWebUrl) {
+    if (!widget.fromOpenLibrary &&
+        !widget.fromOpenLibraryEdition &&
+        !widget.fromWebUrl) {
       if (!widget.duplicatingBook) {
         context.read<EditBookCoverCubit>().setCover(book.getCoverBytes());
       }
@@ -259,7 +261,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
       _isCoverDownloading = true;
     });
 
-    var downloadUrl = widget.coverWebUrl != null ? widget.coverWebUrl! : olCoverUrl;
+    var downloadUrl =
+        widget.coverWebUrl != null ? widget.coverWebUrl! : olCoverUrl;
 
     http.get(Uri.parse(downloadUrl)).then((response) async {
       if (!mounted) return;
@@ -366,7 +369,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
     _prefillBookDetails(context.read<EditBookCubit>().state);
     _attachListeners();
 
-    if (widget.fromOpenLibrary || widget.fromOpenLibraryEdition || widget.fromWebUrl) {
+    if (widget.fromOpenLibrary ||
+        widget.fromOpenLibraryEdition ||
+        widget.fromWebUrl) {
       if (widget.coverOpenLibraryID != null || widget.coverWebUrl != null) {
         _downloadCover();
       } else {

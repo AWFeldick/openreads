@@ -51,7 +51,9 @@ class _SearchLinkScreenState extends State<SearchLinkScreen>
       subtitle: null,
       author: searchResult.author == null ? '' : searchResult.author!,
       description: searchResult.description,
-      rating: searchResult.aggregateRating == null ? null : (searchResult.aggregateRating! * 10).toInt(),
+      rating: searchResult.aggregateRating == null
+          ? null
+          : (searchResult.aggregateRating! * 10).toInt(),
       status: widget.status,
       pages: searchResult.numberOfPages,
       publicationYear: searchResult.datePublished?.year,
